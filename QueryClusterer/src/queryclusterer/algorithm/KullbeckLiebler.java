@@ -23,7 +23,7 @@ public class KullbeckLiebler {
 
 	//Maps a Catagory to the id that will be used as the id in 
 	// all storage of results
-	Map<String, Integer> catToIDMap = new HashMap<String, Integer>();
+	public static Map<String, Integer> catToIDMap = new HashMap<String, Integer>();
 
 
 	//for storing a words relation to a catagory
