@@ -16,33 +16,6 @@ public class KullbeckLiebler {
 
 
 
-	//Maps a Word to the id that will be used as the id in
-	// all storage of results 
-	Map<String, Integer> wordToIDMap = new HashMap<String, Integer>();
-
-
-	//Maps a Catagory to the id that will be used as the id in 
-	// all storage of results
-	public static Map<String, Integer> catToIDMap = new HashMap<String, Integer>();
-
-
-	//for storing a words relation to a catagory
-	//mc_w.get(i).get(j) will get catagory i, word_id j 
-	//storage of measureCatGivenWord results 
-	List<Map<Integer, Double>> measureCat_Word = new ArrayList<Map<Integer, Double>>(); 
-
-	//For storing measureCatGivenWordPair
-	List<Map<Integer, Map<Integer, Double>>> measureCat_WordPair = new ArrayList<Map<Integer, Map<Integer, Double>>>();
-
-
-
-
-
-
-
-
-
-
 	// will return a low value for extremely similar distributions
 	// and high values for extremely dissimilar distributions 
 	public double compareDistributions( ){

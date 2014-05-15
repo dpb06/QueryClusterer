@@ -15,7 +15,7 @@
 % The file aaai.sty is the style file for AAAI Press 
 % proceedings, working notes, and technical reports.
 %
-\title{Catagory Clustering for Query Classification}
+\title{Catagory Clustering for Query Classification\thanks{Thanks to Xiaoxing Gao for your help}}
 \author{David Blackford\\
 Victoria University of Wellington\\
 Kelburn Parade\\
@@ -32,4 +32,23 @@ one of many catagories. This task can be done in many ways, and this paper discu
 
 \begin{document}
 
+
+\section{Algorithm}
+The algorithm that I designed is based on the work \cite{distCluster} and attempts to find the most common distribution of catagories for words that are related
+to a given query. The query begins unenriched, and is enriched through use of the Google search engine(http://www.google.com). The resulting body of words is taken
+as related to the query, and these words are used to find a distibution of the algorithms relative belief that the query should belong to a given catagory/catagories.
+Each word for the enriched query measured against each of the given catagories using one of many possible measures. Once we have measured the rough probability distribution of the word
+belonging to the different catagories, we have to decide on which of these distributions comes closest to representing the query which the words are enriching. 
+
+In this algorithm we do so by, rather than selecting a distribution, by clustering similar distributions until one distribution becomes a fair representation of the majority of the distributions
+we began with. This is completed throught use of the Kullbeck-Leibler algorithm \cite{kullbeckLeibler} which is an algorithm which calculates a measure, the dissimilarity, between two given distributions. If two distributions are similar, then the dissimilarity value returned by the Kullbeck-Leibler algorithm will be extremely low. If two distributions are completely unlike each other, then both the similarity
+
+\section{Implementation}
+
+Written in java etc
+The measure that was originally attempted for this algorithm was the relatedness measure found from Wikiminer \cite{wikiminer} however the implementation of the Wikiminer program was poorly documented, and the relatedness measure relied on a webservice that seemed to be shut-down. Another measure that was attempted was use of Normalized Google Distance \cite{NGD}. This is a measure which makes use of the 
+Google search engine's approximate pages in order to calculate how often two words appear together relative to how often they appear apart. This measure seems extremely promising, however
+Google places limits on the number of queries and frequency of queries. For initial 
+\bibliographystyle{aaai}
+\bibliography{bibfile1}
 \end{document}
