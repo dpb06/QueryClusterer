@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class Category {
 	
-	private static int NUMBER_OF_CATAGORIES = 0;
+	private static int NUMBER_OF_CATEGORIES = 0;
 	private static List<Category> CATEGORIES = new ArrayList<Category>(); 
 		
 	private String category = null;
@@ -21,8 +21,8 @@ public class Category {
 		this.category = category;
 		this.superCategory = superCategory;
 		this.subCategory = subCategory;
-		this.id = Category.NUMBER_OF_CATAGORIES;
-		Category.NUMBER_OF_CATAGORIES++;
+		this.id = Category.NUMBER_OF_CATEGORIES;
+		Category.NUMBER_OF_CATEGORIES++;
 	}
 	
 	public Category(String category){
@@ -30,32 +30,53 @@ public class Category {
 		String[] split = category.split("/");
 		this.superCategory = split[0];
 		this.subCategory = split[1];
-		this.id = Category.NUMBER_OF_CATAGORIES;
-		Category.NUMBER_OF_CATAGORIES++;
-		CATEGORIES.add(this);
+		this.id = Category.NUMBER_OF_CATEGORIES;
+		Category.NUMBER_OF_CATEGORIES++;
 	}
 	
-	public static void readCategoryFile(File file, boolean hasQueryColumn){
+	public static Category getCategory(String category){
+		
+		for(Category existCat : CATEGORIES){
+			if(existCat.getCategory().equals(category) )
+				return existCat;
+		}
+		return null;
+	}
+	
+	private String getCategory() {
+		return category;
+	}
+	
+	public static List<Category> getCategories(){
+		return CATEGORIES;
+	}
+
+	public static void readCategoryFile(File file){
 		try {
 			Scanner scanLine = new Scanner(file);
 			
 			while(scanLine.hasNextLine()){
 				Scanner scanWord = new Scanner(scanLine.nextLine());
-				if(hasQueryColumn)
-					scanWord.next(); // the query
+				String query = null;
+				if(scanWord.hasNext())
+					query = scanWord.next(); // the query or string "catagories". Either way, ignore for now
 				while(scanWord.hasNext()){
-					String category = scanWord.next();
-					new Category(category);
+					String categoryStr = scanWord.next();
+					 //read in the category
+					Category category = Category.getCategory(categoryStr);
+					if(category != null){
+						category = new Category(categoryStr);
+						CATEGORIES.add(category);
+					}
 				}
-			}
-			
-			
-			
+			}			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
+		}		
 	}
+	
+	public static void writeCategoryFile
+	
+	
+	
 }
