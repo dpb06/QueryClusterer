@@ -1,0 +1,31 @@
+Programming order and checklist:
+
+
+i) 		Read Catagories
+ii) 	Read Queries
+iii)	Enrich Queries -> Words
+
+
+
+1) 		Word 		-Measure(C_all)-> 		Distribution
+
+2) 		Distribution && other distributions -KLDistr-> Difference (for M strongest Distributions)
+		-- Store all comparisons
+		-- only compare new distributions again, stored shouldnt be re-worked out
+
+3) 		Merge Closest 2 Distributions -> Cluster(cl) (distribution)
+		-- Remove 2 dists from stored comparisons
+		-- compare cl with all other distributions stored in comparisons
+		-- store cl comparisons
+
+4)		Add Another Distribution(d), New cluster(cl)
+		-- compare with all distributions with stored comparisons(including cl)
+		
+5) 		Repeat from step 2
+
+6) 		When all distributions are worked out choose the cluster with the largest peak confidence
+		(the most dist in there, or possibly highest average, maybe highest high peak)
+		This will be used as the Dist for the Query. 
+
+
+
