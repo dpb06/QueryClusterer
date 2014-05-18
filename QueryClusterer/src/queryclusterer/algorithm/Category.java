@@ -12,10 +12,11 @@ public class Category {
 	private static int NUMBER_OF_CATEGORIES = 0;
 	private static List<Category> CATEGORIES = new ArrayList<Category>(); 
 		
+	private int id = -1;
 	private String category = null;
 	private String superCategory = null;
 	private String subCategory = null;
-	private int id = -1;
+	
 	
 	public Category(String category, String superCategory, String subCategory){
 		this.category = category;
@@ -51,32 +52,13 @@ public class Category {
 		return CATEGORIES;
 	}
 
-	public static void readCategoryFile(File file){
-		try {
-			Scanner scanLine = new Scanner(file);
-			
-			while(scanLine.hasNextLine()){
-				Scanner scanWord = new Scanner(scanLine.nextLine());
-				String query = null;
-				if(scanWord.hasNext())
-					query = scanWord.next(); // the query or string "catagories". Either way, ignore for now
-				while(scanWord.hasNext()){
-					String categoryStr = scanWord.next();
-					 //read in the category
-					Category category = Category.getCategory(categoryStr);
-					if(category != null){
-						category = new Category(categoryStr);
-						CATEGORIES.add(category);
-					}
-				}
-			}			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}		
+	public static int getNumberOfCategories(){
+		return NUMBER_OF_CATEGORIES;
 	}
 	
-	public static void writeCategoryFile
-	
-	
+	public int getCategoryId(){
+		return id;
+	}
+
 	
 }

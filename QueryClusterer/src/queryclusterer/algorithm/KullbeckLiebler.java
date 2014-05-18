@@ -2,18 +2,13 @@ package queryclusterer.algorithm;
 
 
 
+import java.lang.Math;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 
 
 public class KullbeckLiebler {
-
-
 
 
 	// will return a low value for extremely similar distributions
@@ -38,50 +33,41 @@ public class KullbeckLiebler {
 	/**
 			 REMEMBER TO SAVE ANYTHING YOU WORK OUT. 
 	 */
-
-	public double measureCatGivenWord(String cat, String word, boolean checkStored){
-
-		Integer cat_id = catToIDMap.get(cat);
-		Integer word_id = wordToIDMap.get(word);
-		double result = measureCatGivenWord(cat_id, word_id, checkStored);
-
-		//Save result if not saved?
-		return result;
-
-
-
-
-	}
+    // !!!!!!!!!!!!!!!!!NOT USING!!!!!!!!!!!!!!!!!!!!!!!
+//	public static double measureCatGivenWord(String cat_str, String word_str, boolean checkStored){
+//
+//		Category cat = Category.getCategory(cat_str);
+//		Word word = Word.getWord(word_str);
+//		int cat_id = cat.getCategoryId();
+//		int word_id = word.getId();
+//		double result = measureCatGivenWord(cat_id, word_id, checkStored);
+//
+//		//Save result if not saved?
+//		return result;
+//	}
 
 
 
 
-	public double measureCatGivenWord(Integer cat_id, Integer word_id, boolean checkStored){
-
-		Double result = null;
-
-		if (checkStored){
-
-			Double storedResult = measureCat_Word.get(cat_id).get(word_id);
-
-			if (storedResult != null){   //or not filled in (depends on what the empty value will be)
-				result = storedResult;
-				return result;
-			}
-		}
-
-		//WORK OUT MEASURE
-		measureCat_Word.get(cat_id).put(word_id, result);		
-
-	}
+//	public static double measureCatGivenWord(Integer cat_id, Integer word_id, boolean checkStored){
+//
+//		
+//		Double result = null;
+//		
+//		//result = measureCat(Category.getCategories().get(cat_id), )
+//
+//		//WORK OUT MEASURE
+//		return result;		
+//
+//	}
 
 
 
 
 	//Stand in for P(C|ws \/ wt)
-	public double measureCatGivenWordPair(String cat, String s_word, String t_word, boolean checkStored){
+	//public double measureCatGivenWordPair(String cat, String s_word, String t_word, boolean checkStored){
 
-	}
+	//}
 
 
 
@@ -90,31 +76,28 @@ public class KullbeckLiebler {
 	 * Works out algorithm 9
 	 */
 
-	public double weightedAverageKL(String s_word, String t_word){
+	public double weightedAverageKL(Word s_word, Word t_word){
 
 		double totalAvgKL = 0;
 
 		// index of word in the word results table
 
-		int s_index = getWordIndex(s_word);
-		int t_index = getWordIndex(t_word);
 
-		// index of the pair 
-		///THESE SHOULD BOTH JUST BE THE SAME, T->S AND S->T SHOULD BE IDENTICAL
-		int st_index = getPairIndex(s_word, t_word);
-		int ts_index = getPairIndex(t_word, s_word);
-		
-		//They are the same word return a perfect match
 
-		if(s_index == t_index){
-			return 0;
+		//They are the same word return -1
+
+		if(s_word == t_word){
+			return -1;
 		}
 
 		//Works out their algorithm 9
-		for(String cat : catagoryList){
+		for(Category cat : Category.getCategories()){
 
 			// works out algorithm 7 for both of them (simplified for now, only averages)
-			double pc_st = getJoinedProbability(cat, s_word, t_word);
+			Distribution s_dist = s_word.getDistribution();
+			Distribution t_dist = t_word.getDistribution();
+			
+			double pc_st = getJoinedProbability(cat, s_dist, t_dist);
 			
 			double klS_T = KLDivStep(cat, s_word, t_word, pc_st);
 			double klT_S = KLDivStep(cat, t_word, s_word, pc_st);
@@ -127,35 +110,14 @@ public class KullbeckLiebler {
 	}
 
 
-	/**
-	 * 
-	 * @param s_word
-	 * @return
-	 */
-	private int getWordIndex(String s_word) {
-		int id = -1;
-		if(wordToIDMap.containsKey(s_word))
-			id = wordToIDMap.get(s_word);		 
-
-		return id;
-	}
 
 
-
-
-
-	public double getJoinedProbability(String cat, String s_word, String t_word, boolean checkStored){
+	public double getJoinedProbability(Category cat, Distribution s_dist, Distribution t_dist){
 		Double joinedProb = null;
-		if(checkStored){
-			//check joined probability
-			///////HERE//////
-			if (joinedProb != null)
-				return joinedProb;
-		}
+		int cat_id = cat.getCategoryId();
 		
-		
-		double pc_s = measureCatGivenWord(cat, s_word, true);
-		double pc_t = measureCatGivenWord(cat, t_word, true);
+		double pc_s = s_dist.getDistributionArray()[cat_id];
+		double pc_t = t_dist.getDistributionArray()[cat_id];		
 		
 		joinedProb = (pc_s + pc_t)/2;
 		
@@ -173,13 +135,15 @@ public class KullbeckLiebler {
 
 	 */
 
-	public double KLDivStep(String cat, String s_word, String t_word, double pc_st){
+	public double KLDivStep(Category cat, Word s_word, Word t_word, double pc_st){
+		
+		int cat_id = cat.getCategoryId();
 		
 		//work out the relative probabilities for each word
-		double pc_s = measureCatGivenWord(cat, s_word, false);
-		double pc_t = measureCatGivenWord(cat, t_word, false);
+		double pc_s = s_word.getDistribution().getDistributionArray()[cat_id];
+		double pc_t = t_word.getDistribution().getDistributionArray()[cat_id];	
 		double divByZeroPenalty = 3500;
-		double log_pc_s_DIV_pc_t = protectedLogDiv(pc_s, pc_t, s_word +" over "+t_word, divByZeroPenalty);
+		double log_pc_s_DIV_pc_t = protectedLogDiv(pc_s, pc_t, s_word.getWord() +" over "+t_word.getWord(), divByZeroPenalty);
 
 		
 		return pc_s * log_pc_s_DIV_pc_t;

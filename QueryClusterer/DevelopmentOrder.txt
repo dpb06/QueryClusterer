@@ -1,6 +1,39 @@
 Programming order and checklist:
 
 
+
+Still todo:
+
+Check all of the below is in place
+(using test code, don't bother with full)
+
+In Query
+	+have done getting distributions for all words in query
+	+have done comparing all distributions together
+	-need to cluster closest values
+	-need to compare clusters Distr with Word Distr
+	-need to compare cluster Distr with cluster Distr
+	-need to be able to merge Word/Word -> cluster
+	-need to be able to merge Word/Cluster -> cluster
+	-need to be able to merge Cluster/Cluster -> cluster
+	-need to be able to store Words and Clusters in the same list, (in order of strongest)
+	-need to have a list of Currently looked at (those that will be compared and merged)
+	
+	-Need to pick M distrs initially(strongest)
+	- need to merge closest distrConts into cluster
+	-  need to replace closest 2 with cluster and next strongest distr
+	-   need to merge closest distrConts into cluster
+
+
+Finish Report
+
+
+
+
+
+
+
+
 i) 		Read Catagories
 ii) 	Read Queries
 iii)	Enrich Queries -> Words
@@ -9,9 +42,16 @@ iii)	Enrich Queries -> Words
 
 1) 		Word 		-Measure(C_all)-> 		Distribution
 
+			For all Words (w)
+				For each Category (c)
+					w.Dist.set((c.id), m(c, w))
+				
+
 2) 		Distribution && other distributions -KLDistr-> Difference (for M strongest Distributions)
 		-- Store all comparisons
-		-- only compare new distributions again, stored shouldnt be re-worked out
+		-- only compare new distributions again, stored shouldn't be re-worked out
+		-give each Dist a method that works out strongest Distributions (see 6 for strength possibilitie)
+			
 
 3) 		Merge Closest 2 Distributions -> Cluster(cl) (distribution)
 		-- Remove 2 dists from stored comparisons
