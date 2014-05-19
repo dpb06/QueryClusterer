@@ -52,13 +52,15 @@ public class QueryDataReader {
 	}
 	
 	public static void testWordEnrich(List<Query> queries) throws FileNotFoundException{
-		File file = new File("/0apr.info");
+		File file = new File("0apr.info");
 		Scanner scan = new Scanner(file);
 		List<Word> wordsFor0APRTest = new ArrayList<Word>();
 		
 		while(scan.hasNext()){
 			String nextWord = scan.next();
-			Word.getWord(nextWord); // creates word if we dont already have it;
+			Word w = Word.getWord(nextWord);
+			if (!wordsFor0APRTest.contains(w))
+				wordsFor0APRTest.add(w); // creates word if we dont already have it;
 		}
 		for(Query query : queries){
 			if(query.getQuery().equalsIgnoreCase("0 apr")){
@@ -69,13 +71,13 @@ public class QueryDataReader {
 	
 	
 	public static void main(String[] args) throws FileNotFoundException{
-		File catLabelFile = new File("/labeler1.txt");
+		File catLabelFile = new File("labeler1.txt");
 		
 		List<Query> queries = readCategoryFile(catLabelFile); // read queries and categories
 		
 		testWordEnrich(queries); // have enriched queries (for 0 apr) / reads apr file for words
 		for(Query query : queries){// get measures
-			System.out.println(query.getDistribution());
+			System.out.println(query.getDistribution((7)));
 		}
 		
 		

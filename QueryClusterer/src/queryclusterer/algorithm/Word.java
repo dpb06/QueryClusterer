@@ -55,7 +55,7 @@ public class Word implements DistributionContainer {
 	public Distribution getDistribution(Query query, List<Category> categories){
 		
 		//dist = new Distribution(this, categories, query);
-		testDistribution(query, categories);
+		dist = testDistribution(query, categories);
 		return dist;
 	}
 	
@@ -71,7 +71,7 @@ public class Word implements DistributionContainer {
 		for(Category category : categories){
 			double bias = 1.0;
 			if(query.getVotedCategories().contains(category)){
-				bias = 1.4;
+				bias = 1.6;
 			}
 			double measure = (0.1+ (0.4* Math.random())) * bias*(count/totalCount); // cant be zero
 			probArray[category.getCategoryId()] = measure;

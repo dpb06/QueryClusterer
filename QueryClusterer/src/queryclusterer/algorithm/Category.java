@@ -28,19 +28,22 @@ public class Category {
 	
 	public Category(String category){
 		this.category = category;
-		String[] split = category.split("/");
+		String[] split = category.split("\\\\");
 		this.superCategory = split[0];
 		this.subCategory = split[1];
 		this.id = Category.NUMBER_OF_CATEGORIES;
+		Category.CATEGORIES.add(this);
 		Category.NUMBER_OF_CATEGORIES++;
 	}
 	
 	public static Category getCategory(String category){
-		
-		for(Category existCat : CATEGORIES){
-			if(existCat.getCategory().equals(category) )
-				return existCat;
-		}
+		if(!category.trim().isEmpty()){
+			for(Category existCat : CATEGORIES){
+				if(existCat.getCategory().equals(category) )
+					return existCat;
+			}
+			return new Category(category);
+		} 
 		return null;
 	}
 	

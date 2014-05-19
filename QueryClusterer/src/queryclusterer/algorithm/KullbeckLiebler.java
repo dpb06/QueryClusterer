@@ -76,7 +76,7 @@ public class KullbeckLiebler {
 	 * Works out algorithm 9
 	 */
 
-	public double weightedAverageKL(Word s_word, Word t_word){
+	public double weightedAverageKL(DistributionContainer s_word, DistributionContainer t_word){
 
 		double totalAvgKL = 0;
 
@@ -84,12 +84,12 @@ public class KullbeckLiebler {
 
 
 
-		//They are the same word return -1
+		//They are the same word return -2
 
 		if(s_word == t_word){
-			return -1;
+			return -2;
 		}
-
+		System.out.println(Category.getNumberOfCategories());
 		//Works out their algorithm 9
 		for(Category cat : Category.getCategories()){
 
@@ -135,7 +135,7 @@ public class KullbeckLiebler {
 
 	 */
 
-	public double KLDivStep(Category cat, Word s_word, Word t_word, double pc_st){
+	public double KLDivStep(Category cat, DistributionContainer s_word, DistributionContainer t_word, double pc_st){
 		
 		int cat_id = cat.getCategoryId();
 		
@@ -143,7 +143,7 @@ public class KullbeckLiebler {
 		double pc_s = s_word.getDistribution().getDistributionArray()[cat_id];
 		double pc_t = t_word.getDistribution().getDistributionArray()[cat_id];	
 		double divByZeroPenalty = 3500;
-		double log_pc_s_DIV_pc_t = protectedLogDiv(pc_s, pc_t, s_word.getWord() +" over "+t_word.getWord(), divByZeroPenalty);
+		double log_pc_s_DIV_pc_t = protectedLogDiv(pc_s, pc_t, s_word.toString() +" over "+t_word.toString(), divByZeroPenalty);
 
 		
 		return pc_s * log_pc_s_DIV_pc_t;
@@ -156,7 +156,7 @@ public class KullbeckLiebler {
 	public double protectedLogDiv(double a, double b, String errorString, double penaltyForDivByZero){
 
 		if(a != 0 && b == 0){
-			System.out.println("Protected log caught: ("+a+"/"+b+") Extra info: "+((errorString==null)?"none":errorString));
+			//System.out.println("Protected log caught: ("+a+"/"+b+") Extra info: "+((errorString==null)?"none":errorString));
 			return penaltyForDivByZero;
 
 		}else{
