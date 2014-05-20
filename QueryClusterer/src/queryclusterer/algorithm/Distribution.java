@@ -15,7 +15,7 @@ public class Distribution {
 		for(Category cat : categories){
 			
 		}
-		System.out.println("Dist created: "+word);
+//		System.out.println("Dist created: "+word);
 	}
 	
 	public Distribution(double[] distArray){

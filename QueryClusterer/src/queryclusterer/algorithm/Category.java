@@ -18,14 +18,14 @@ public class Category {
 	private String subCategory = null;
 	
 	
-	public Category(String category, String superCategory, String subCategory){
-		this.category = category;
-		this.superCategory = superCategory;
-		this.subCategory = subCategory;
-		this.id = Category.NUMBER_OF_CATEGORIES;
-		Category.NUMBER_OF_CATEGORIES++;
-	}
-	
+//	public Category(String category, String superCategory, String subCategory){
+//		this.category = category;
+//		this.superCategory = superCategory;
+//		this.subCategory = subCategory;
+//		this.id = Category.NUMBER_OF_CATEGORIES;
+//		Category.NUMBER_OF_CATEGORIES++;
+//	}
+//	
 	public Category(String category){
 		this.category = category;
 		String[] split = category.split("\\\\");
@@ -33,15 +33,16 @@ public class Category {
 		this.subCategory = split[1];
 		this.id = Category.NUMBER_OF_CATEGORIES;
 		Category.CATEGORIES.add(this);
-		Category.NUMBER_OF_CATEGORIES++;
+		Category.NUMBER_OF_CATEGORIES = CATEGORIES.size();
 	}
 	
 	public static Category getCategory(String category){
 		if(!category.trim().isEmpty()){
 			for(Category existCat : CATEGORIES){
-				if(existCat.getCategory().equals(category) )
+				if(existCat.getCategory().equals(category) )					
 					return existCat;
 			}
+			System.out.println("New Category: "+category);
 			return new Category(category);
 		} 
 		return null;
@@ -61,6 +62,12 @@ public class Category {
 	
 	public int getCategoryId(){
 		return id;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Category "+id+"/"+NUMBER_OF_CATEGORIES+": "+category;
 	}
 
 	

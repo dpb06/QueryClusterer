@@ -49,11 +49,13 @@ public class Cluster implements DistributionContainer {
 	
 	@Override
 	public String toString() {
+
+		
 	
-		return "------------------------"
-				+ "\nCluster"
-				+ "\n\tDistribution:\n"+mergedDistribution
-				+ "\n\tContents:\n["+distsInCluster.toString()+"]\n";
+//		return "------------------------"
+//				+ "\nCluster"
+//				+ "\n\tDistribution:\n"+mergedDistribution
+				return ""+ "\n\t\n["+distsInCluster.toString()+"]\n";
 	}
 	
 }

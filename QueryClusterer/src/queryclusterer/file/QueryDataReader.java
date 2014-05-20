@@ -6,7 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.SwingUtilities;
+
+import org.jfree.ui.RefineryUtilities;
+
 import queryclusterer.algorithm.Category;
+import queryclusterer.algorithm.Distribution;
 import queryclusterer.algorithm.Query;
 import queryclusterer.algorithm.Word;
 
@@ -26,7 +31,7 @@ public class QueryDataReader {
 				String queryStr = null;
 				Query query = null;
 				if(scanWord.hasNext()){
-					queryStr = scanWord.next(); // the query or string "catagories". Either way, ignore for now
+					queryStr = scanWord.next().toLowerCase(); // the query or string "catagories". Either way, ignore for now
 					if (!TEST || queryStr.trim().equalsIgnoreCase("0 apr")) // for test case only do 0apr
 						query = new Query(queryStr);
 				}
@@ -35,8 +40,6 @@ public class QueryDataReader {
 					 //read in the category
 					Category category = Category.getCategory(categoryStr);
 					if(category != null){
-						category = new Category(categoryStr);
-						Category.getCategories().add(category);
 						if(query != null)
 							query.addVotedCategory(category);
 					}
@@ -57,7 +60,7 @@ public class QueryDataReader {
 		List<Word> wordsFor0APRTest = new ArrayList<Word>();
 		
 		while(scan.hasNext()){
-			String nextWord = scan.next();
+			String nextWord = scan.next().toLowerCase();
 			Word w = Word.getWord(nextWord);
 			if (!wordsFor0APRTest.contains(w))
 				wordsFor0APRTest.add(w); // creates word if we dont already have it;
@@ -76,8 +79,22 @@ public class QueryDataReader {
 		List<Query> queries = readCategoryFile(catLabelFile); // read queries and categories
 		
 		testWordEnrich(queries); // have enriched queries (for 0 apr) / reads apr file for words
+		
+		int M = 7;
 		for(Query query : queries){// get measures
-			System.out.println(query.getDistribution((7)));
+			Distribution dist = query.getDistribution(M);
+			for( int i = 0; i < Category.getNumberOfCategories() ; i++){
+				
+				System.out.println(Category.getCategories().get(i) + ":\t"+ dist.getDistributionArray()[i]);
+			}
+			System.out.println(query.getQuery());
+					 XYSeriesDraw xysD = new XYSeriesDraw(dist.getDistributionArray(), query.getQuery());
+					 xysD.pack();
+					 RefineryUtilities.centerFrameOnScreen(xysD);
+					 
+					 
+					 xysD.setVisible(true);
+					
 		}
 		
 		

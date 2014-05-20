@@ -1,6 +1,7 @@
 package queryclusterer.algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Word implements DistributionContainer {
 	private Distribution dist = null;
 
 	private int count = 1; // only for TEST
-	private static int totalCount = 1;
+	private static double totalCount = 1;
 	
 	private String word;
 
@@ -35,6 +36,7 @@ public class Word implements DistributionContainer {
 		this.word = word;
 		this.id = WORDS.size(); // first is zero, 
 		WORDS.add(this);
+		Word.totalCount++;
 
 	}
 	
@@ -71,10 +73,18 @@ public class Word implements DistributionContainer {
 		for(Category category : categories){
 			double bias = 1.0;
 			if(query.getVotedCategories().contains(category)){
-				bias = 1.6;
+				bias = 3.4;
 			}
-			double measure = (0.1+ (0.4* Math.random())) * bias*(count/totalCount); // cant be zero
+			double measure = (0.005+ (0.1* Math.random())) * bias*(count/totalCount); // cant be zero
+			
+			
+			//System.out.println("CategoryPos"+category.getCategoryId()+"/"+Category.getNumberOfCategories());
+			//System.out.println(Arrays.toString(probArray));	
+			
 			probArray[category.getCategoryId()] = measure;
+			
+			//System.out.println(Arrays.toString(probArray));		
+			//System.out.println();
 		}
 		
 		dist = new Distribution(probArray);
@@ -94,10 +104,10 @@ public class Word implements DistributionContainer {
 				
 				existWord.count++;
 				Word.totalCount++;
+				System.out.println(existWord.count+"/"+Word.totalCount);
 				return existWord;
 			}
-		}
-		Word.totalCount++;
+		}		
 		return new Word(_word);
 	}
 
@@ -110,6 +120,6 @@ public class Word implements DistributionContainer {
 	
 	public String toString() {
 	
-		return word;
+		return word+":"+count;
 	}
 }

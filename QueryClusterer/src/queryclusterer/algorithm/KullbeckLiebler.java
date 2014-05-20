@@ -89,7 +89,7 @@ public class KullbeckLiebler {
 		if(s_word == t_word){
 			return -2;
 		}
-		System.out.println(Category.getNumberOfCategories());
+//		System.out.println(Category.getNumberOfCategories());
 		//Works out their algorithm 9
 		for(Category cat : Category.getCategories()){
 
