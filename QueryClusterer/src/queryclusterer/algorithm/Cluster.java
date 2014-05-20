@@ -52,10 +52,10 @@ public class Cluster implements DistributionContainer {
 
 		
 	
-//		return "------------------------"
-//				+ "\nCluster"
+		return "------------------------"
+				+ "\nCluster";
 //				+ "\n\tDistribution:\n"+mergedDistribution
-				return ""+ "\n\t\n["+distsInCluster.toString()+"]\n";
+//				+ "\n\t\n["+distsInCluster.toString()+"]\n";
 	}
 	
 }

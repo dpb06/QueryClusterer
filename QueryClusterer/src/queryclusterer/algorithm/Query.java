@@ -108,14 +108,14 @@ public class Query {
 		
 
 		// now have all distances between different words for the query
-		while(!(distributionsInPlay.size()>3)){			
+		while((distributionsInPlay.size()>2)){			
 			
 			int previous_lowest_i = -1;
 			int previous_lowest_j = -1;
 			double lowestDifference = 1000000;
 			System.out.println("Finding lowest\n-----------\n");
 			for(int j = 0 ; j < distributionsInClusters.size() ; j++ ){
-				for(int i = 0; i < distributionsInClusters.size(); i++ ){ // i is always less than j
+				for(int i = 0; i < j; i++ ){ // i is always less than j
 					if(i != j){
 						if(results[i][j] < lowestDifference && results[i][j] != -2){
 							System.out.println(results[i][j]+" < "+lowestDifference);
@@ -134,8 +134,9 @@ public class Query {
 			Cluster merged = new Cluster();			
 			merged.addDistributionContainter(i_dist);
 			merged.addDistributionContainter(j_dist);			
-			System.out.println("Merged-"+merged);			
-			distributionsInClusters.add(merged);	
+					
+			distributionsInClusters.add(merged);
+			System.out.println("Merged-"+merged);	
 			
 			DistributionContainer nextDist = distributionsInPlay.remove(distributionsInPlay.size()-1);
 			

@@ -106,6 +106,8 @@ public class KullbeckLiebler {
 
 			totalAvgKL += avgKL;
 		}	
+		if (totalAvgKL == 0)
+			System.out.println("Wat");
 		return totalAvgKL;
 	}
 
@@ -142,7 +144,7 @@ public class KullbeckLiebler {
 		//work out the relative probabilities for each word
 		double pc_s = s_word.getDistribution().getDistributionArray()[cat_id];
 		double pc_t = t_word.getDistribution().getDistributionArray()[cat_id];	
-		double divByZeroPenalty = 3500;
+		double divByZeroPenalty = 10;
 		double log_pc_s_DIV_pc_t = protectedLogDiv(pc_s, pc_t, s_word.toString() +" over "+t_word.toString(), divByZeroPenalty);
 
 		
