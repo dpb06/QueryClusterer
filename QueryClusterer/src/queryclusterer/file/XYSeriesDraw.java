@@ -16,10 +16,10 @@ import queryclusterer.algorithm.Category;
 
 public class XYSeriesDraw extends JFrame {    
 	
-	double[] results;
+	double[][] results;
 	String query;
 	
-	public XYSeriesDraw(double[] results, String query) {        
+	public XYSeriesDraw(double[][] results, String query) {        
 		super("XY Line Chart Example with JFreechart");  
 		this.results = results;
 		this.query = query;
@@ -52,19 +52,20 @@ public class XYSeriesDraw extends JFrame {
 	
 	private XYDataset createDataset() {  
 			// creates an XY dataset...     
-			// returns the dataset   
-		double[] yData = results;
+			// returns the dataset
 		XYSeriesCollection dataset = new XYSeriesCollection();
-		XYSeries series = new XYSeries("Distribution");
-		System.out.println(results);
-			for(int i = 0 ; i < results.length ; i++){
-				
-				series.add(i, yData[i]);
-			}
-		
-		
-		dataset.addSeries(series);
-		
+		for(int j = 0 ; j <results.length ; j++){
+			double[] yData = results[j];		
+			XYSeries series = new XYSeries("Distribution"+j);
+			System.out.println(results);
+				for(int i = 0 ; i < yData.length ; i++){
+					
+					series.add(i, yData[i]);
+				}
+			
+			
+				dataset.addSeries(series);
+		}
 		return dataset;
 	}   
 	

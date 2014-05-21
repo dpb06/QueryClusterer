@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.jfree.ui.RefineryUtilities;
+
+import queryclusterer.file.XYSeriesDraw;
+
 public class Query {
 
 	
@@ -59,7 +63,7 @@ public class Query {
 		//Sort by strength for later
 		Comparator<DistributionContainer> distComparator = new Comparator<DistributionContainer>() {
 			public int compare(DistributionContainer o1, DistributionContainer o2) {
-				return (int)(5000*(o1.getDistribution().getStrength() - o2.getDistribution().getStrength()));
+				return (int)(5000*(o2.getDistribution().getStrength() - o1.getDistribution().getStrength()));
 			}
 		};
 		
@@ -104,7 +108,7 @@ public class Query {
 						
 				}
 			}
-		}
+		} //results created
 		
 
 		// now have all distances between different words for the query
@@ -118,14 +122,17 @@ public class Query {
 				for(int i = 0; i < j; i++ ){ // i is always less than j
 					if(i != j){
 						if(results[i][j] < lowestDifference && results[i][j] != -2){
-							System.out.println(results[i][j]+" < "+lowestDifference);
+							//System.out.println(results[i][j]+" < "+lowestDifference+" ::"+distributionsInClusters.size());
 							previous_lowest_i = i;
 							previous_lowest_j = j;
-							lowestDifference = results[i][j];								
+							lowestDifference = results[i][j];
 						}
 					}
 				}			
 			}
+			
+			DistributionContainer nextDist = distributionsInPlay.remove(distributionsInPlay.size()-1);
+			
 			
 			// j is further on in the list, we will replace it with the value 
 			DistributionContainer j_dist = distributionsInClusters.get(previous_lowest_j);  
@@ -135,11 +142,8 @@ public class Query {
 			merged.addDistributionContainter(i_dist);
 			merged.addDistributionContainter(j_dist);			
 					
-			distributionsInClusters.add(merged);
 			System.out.println("Merged-"+merged);	
-			
-			DistributionContainer nextDist = distributionsInPlay.remove(distributionsInPlay.size()-1);
-			
+
 			// need to move values of the last dist (size-1) in the list 
 			//   into where "previous_lowest_i" was, deleting as you go
 			distributionsInClusters.set(previous_lowest_i, nextDist);
@@ -176,7 +180,20 @@ public class Query {
 		}
 		Collections.sort(distributionsInClusters, distComparator);
 		
+		
 		System.out.println(distributionsInClusters);
+		
+		System.out.println("\n\n\n\n\n\n\n\n\n\n"+distributionsInClusters.get(distributionsInClusters.size()-1)+"\n\n\n\n\n\n\n\n\n\n");
+		double[][] toDraw = new double[distributionsInClusters.size()][];
+		for (int i = 0; i < distributionsInClusters.size(); i++) {
+			toDraw[i] = distributionsInClusters.get(i).getDistribution().getDistributionArray();
+		}
+		XYSeriesDraw xysD = new XYSeriesDraw(toDraw, query);
+		 xysD.pack();
+		 RefineryUtilities.centerFrameOnScreen(xysD);
+		 
+		 
+		 xysD.setVisible(true);
 		
 		// the first one in the list should hold the strongest candidate Distribution
 		return distributionsInClusters.get(distributionsInClusters.size()-1).getDistribution();

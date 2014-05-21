@@ -1,12 +1,11 @@
 package queryclusterer.algorithm;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-public class Cluster implements DistributionContainer {
+public class Cluster extends DistributionContainer {
 
-	List<DistributionContainer> distsInCluster = new ArrayList<DistributionContainer>();
+	Set<Word> distsInCluster = new TreeSet<Word>();
 	
 	Distribution mergedDistribution = null;
 	
@@ -15,18 +14,36 @@ public class Cluster implements DistributionContainer {
 		return mergedDistribution;
 	}
 	
-	public void addDistributionContainter(DistributionContainer dC){
-		distsInCluster.add(dC);
+	public Cluster addDistributionContainter(Cluster dC){
 		mergeDistribution(dC);
-		
+		distsInCluster.addAll(dC.getDistsInCluster());
+		return this;
 	}
 	
-	private void mergeDistribution(DistributionContainer dC){
+	public Cluster addDistributionContainter(Word dC){
+		mergeDistribution(dC);
+		distsInCluster.add(dC);
+		return this;
+	}
+	
+	public Cluster addDistributionContainter(DistributionContainer dC){
+		if(dC instanceof Cluster){
+			return addDistributionContainter((Cluster)dC);
+		}else if(dC instanceof Word){
+			return addDistributionContainter((Word)dC);
+		}else
+			throw new IllegalArgumentException("Please implement this method for your object: "+dC);
+	}	
+	
+	public Set<Word> getDistsInCluster(){
+		return distsInCluster;
+	}
+	
+	public void mergeDistribution(DistributionContainer dC){
 		if(mergedDistribution == null){
 			mergedDistribution = dC.getDistribution();			
 		}
-		else{
-			
+		else{			
 			Distribution d1 = mergedDistribution;
 			Distribution d2 = dC.getDistribution();
 			
@@ -48,14 +65,65 @@ public class Cluster implements DistributionContainer {
 	
 	
 	@Override
-	public String toString() {
-
-		
-	
-		return "------------------------"
-				+ "\nCluster";
-//				+ "\n\tDistribution:\n"+mergedDistribution
-//				+ "\n\t\n["+distsInCluster.toString()+"]\n";
+	public String toString() {	
+		return  "\n"+getDistribution().getStrength()+" -> "+distsInCluster.toString()+"\n";
 	}
+
+	@Override
+	public int compareTo(DistributionContainer dC) {
+		if (dC instanceof Cluster) {
+			Cluster c = (Cluster) dC;
+			double totalThis = 0;
+			for(DistributionContainer innerThis : this.getDistsInCluster()){
+				totalThis += innerThis.getDistribution().getStrength();
+			}
+			double totalC= 0;
+			for(DistributionContainer innerC : c.getDistsInCluster()){
+				totalC += innerC.getDistribution().getStrength();
+			}
+			return (int) (totalThis -totalC);		
+			
+		} 
+		else if (dC instanceof Word){
+			Word w = (Word) dC;
+			return (this.getDistsInCluster().contains(w)? 1 :0);
+		}
+			throw new IllegalArgumentException("Shouldnt be here");
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		double totalThis = 0;
+		for(DistributionContainer innerThis : this.getDistsInCluster()){
+			totalThis += innerThis.getDistribution().getStrength();
+		}
+		return (int) (totalThis*3000);
+	}
+	
+	@Override
+	public boolean equals(DistributionContainer dC) {
+		if (dC instanceof Cluster) {
+			if (dC instanceof Cluster) {
+				Cluster c = (Cluster) dC;
+				double totalThis = 0;
+				for(DistributionContainer innerThis : this.getDistsInCluster()){
+					totalThis += innerThis.getDistribution().getStrength();
+				}
+				double totalC= 0;
+				for(DistributionContainer innerC : c.getDistsInCluster()){
+					totalC += innerC.getDistribution().getStrength();
+				}
+				return (totalThis ==totalC);		
+				
+			} 
+		} 
+		else if (dC instanceof Word){
+			return false;
+		}
+		throw new IllegalArgumentException("Shouldnt be here");
+	}
+
+
 	
 }

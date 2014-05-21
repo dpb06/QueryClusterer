@@ -1,8 +1,12 @@
 package queryclusterer.algorithm;
 
-public interface DistributionContainer {
+public abstract class DistributionContainer implements Comparable<DistributionContainer> {
 
-	public Distribution getDistribution();
+	public abstract Distribution getDistribution();
+
+	public boolean equals(DistributionContainer dC) {
+		return super.equals(dC);
+	}
 	
-	
+
 }

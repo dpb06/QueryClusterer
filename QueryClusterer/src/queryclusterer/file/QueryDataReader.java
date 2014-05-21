@@ -87,13 +87,7 @@ public class QueryDataReader {
 				
 				System.out.println(Category.getCategories().get(i) + ":\t"+ dist.getDistributionArray()[i]);
 			}
-			System.out.println(query.getQuery());
-					 XYSeriesDraw xysD = new XYSeriesDraw(dist.getDistributionArray(), query.getQuery());
-					 xysD.pack();
-					 RefineryUtilities.centerFrameOnScreen(xysD);
 					 
-					 
-					 xysD.setVisible(true);
 					
 		}
 		

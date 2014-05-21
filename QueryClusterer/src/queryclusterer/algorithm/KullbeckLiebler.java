@@ -107,7 +107,7 @@ public class KullbeckLiebler {
 			totalAvgKL += avgKL;
 		}	
 		if (totalAvgKL == 0)
-			System.out.println("Wat");
+			System.out.println("Wat "+s_word+"|"+t_word);
 		return totalAvgKL;
 	}
 
