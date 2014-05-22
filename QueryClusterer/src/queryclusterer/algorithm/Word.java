@@ -66,12 +66,16 @@ public class Word extends DistributionContainer {
 		double[] probArray = new double[categories.size()];
 
 		for (Category category : categories) {
-			double bias = 1.0;
+			double bias = 0.0;
+			double a = 0.007; //constant
+			double b = 0.010; // * random
+			double c = 0.00003;   // * bias (if cat)
+			double d = 0.00125;  // + bias (if cat)
 			if (query.getVotedCategories().contains(category)) {
-				bias = 4*(Math.random());
+				bias = c*(Math.random())+d;
 			}
-			double measure = (0.0004 + ( Math.random())) 
-					 *(count / totalCount)* bias ; // cant be zero
+			
+			double measure = (b*Math.random() - b/2)+(a) + (count)* bias ; // cant be zero
 
 			// System.out.println("CategoryPos"+category.getCategoryId()+"/"+Category.getNumberOfCategories());
 			// System.out.println(Arrays.toString(probArray));

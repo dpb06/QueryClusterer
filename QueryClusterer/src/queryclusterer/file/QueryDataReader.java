@@ -5,10 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.SwingUtilities;
-
-import org.jfree.ui.RefineryUtilities;
+import java.util.Set;
+import java.util.TreeSet;
 
 import queryclusterer.algorithm.Category;
 import queryclusterer.algorithm.Distribution;
@@ -80,14 +78,27 @@ public class QueryDataReader {
 		
 		testWordEnrich(queries); // have enriched queries (for 0 apr) / reads apr file for words
 		
-		int M = 7;
+		int M = 3;
 		for(Query query : queries){// get measures
 			Distribution dist = query.getDistribution(M);
-			for( int i = 0; i < Category.getNumberOfCategories() ; i++){
-				
-				System.out.println(Category.getCategories().get(i) + ":\t"+ dist.getDistributionArray()[i]);
+			Set<Integer> s = new TreeSet<Integer>();
+			for(int j = 0 ; j < Category.getNumberOfCategories() ; j++){
+				s.add(j);
 			}
-					 
+			for(int j = 0 ; j < Category.getNumberOfCategories() ; j++){
+				int highestIndex = 0;
+				double highestStrength = 0;
+				for( int i : s){
+					
+					if(dist.getDistributionArray()[i] > highestStrength){
+						highestStrength = dist.getDistributionArray()[i];
+						highestIndex = i;
+					}
+				}
+				
+				System.out.println(Category.getCategories().get(highestIndex) + ":\t"+ dist.getDistributionArray()[highestIndex]);
+				s.remove(highestIndex);
+			}	 
 					
 		}
 		

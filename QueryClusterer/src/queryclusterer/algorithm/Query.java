@@ -63,7 +63,7 @@ public class Query {
 		//Sort by strength for later
 		Comparator<DistributionContainer> distComparator = new Comparator<DistributionContainer>() {
 			public int compare(DistributionContainer o1, DistributionContainer o2) {
-				return (int)(5000*(o2.getDistribution().getStrength() - o1.getDistribution().getStrength()));
+				return (int)(5000*(o1.getDistribution().getStrength() - o2.getDistribution().getStrength()));
 			}
 		};
 		
@@ -74,8 +74,8 @@ public class Query {
 		
 		List<DistributionContainer> distributionsInClusters = new ArrayList<DistributionContainer>(M);
 		//get the strongest M distributions
-		for(int i = 0 ; i < M ; i++){
-			distributionsInClusters.add(distributionsInPlay.remove(distributionsInPlay.size()-1));
+		for(int i = 0 ; i <= M ; i++){
+			distributionsInClusters.add(distributionsInPlay.remove((i*distributionsInPlay.size()-1)/M));
 		}
 		
 		
@@ -112,7 +112,7 @@ public class Query {
 		
 
 		// now have all distances between different words for the query
-		while((distributionsInPlay.size()>2)){			
+		while(!(distributionsInPlay.isEmpty())){			
 			
 			int previous_lowest_i = -1;
 			int previous_lowest_j = -1;
@@ -186,7 +186,7 @@ public class Query {
 		System.out.println("\n\n\n\n\n\n\n\n\n\n"+distributionsInClusters.get(distributionsInClusters.size()-1)+"\n\n\n\n\n\n\n\n\n\n");
 		double[][] toDraw = new double[distributionsInClusters.size()][];
 		for (int i = 0; i < distributionsInClusters.size(); i++) {
-			toDraw[i] = distributionsInClusters.get(i).getDistribution().getDistributionArray();
+			toDraw[toDraw.length-(i+1)] = distributionsInClusters.get(i).getDistribution().getDistributionArray();
 		}
 		XYSeriesDraw xysD = new XYSeriesDraw(toDraw, query);
 		 xysD.pack();

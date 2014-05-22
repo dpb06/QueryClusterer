@@ -1,3 +1,73 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citeauthoryear{Baker and
+  McCallum}{1998}]{baker1998distributional}
+Baker, L.~D., and McCallum, A.~K.
+\newblock 1998.
+\newblock Distributional clustering of words for text classification.
+\newblock In {\em Proceedings of the 21st annual international ACM SIGIR
+  conference on Research and development in information retrieval},  96--103.
+\newblock ACM.
+
+\bibitem[\protect\citeauthoryear{Cilibrasi and
+  Vitanyi}{2007}]{cilibrasi2007google}
+Cilibrasi, R.~L., and Vitanyi, P.~M.
+\newblock 2007.
+\newblock The google similarity distance.
+\newblock {\em Knowledge and Data Engineering, IEEE Transactions on}
+  19(3):370--383.
+
+\bibitem[\protect\citeauthoryear{Hartigan and
+  Wong}{1979}]{hartigan1979algorithm}
+Hartigan, J.~A., and Wong, M.~A.
+\newblock 1979.
+\newblock Algorithm as 136: A k-means clustering algorithm.
+\newblock {\em Applied statistics}  100--108.
+
+\bibitem[\protect\citeauthoryear{H{\"o}lscher and
+  Strube}{2000}]{holscher2000web}
+H{\"o}lscher, C., and Strube, G.
+\newblock 2000.
+\newblock Web search behavior of internet experts and newbies.
+\newblock {\em Computer networks} 33(1):337--346.
+
+\bibitem[\protect\citeauthoryear{Hu \bgroup et al\mbox.\egroup
+  }{2009}]{hu2009exploiting}
+Hu, X.; Zhang, X.; Lu, C.; Park, E.~K.; and Zhou, X.
+\newblock 2009.
+\newblock Exploiting wikipedia as external knowledge for document clustering.
+\newblock In {\em Proceedings of the 15th ACM SIGKDD international conference
+  on Knowledge discovery and data mining},  389--396.
+\newblock ACM.
+
+\bibitem[\protect\citeauthoryear{Kullback}{1987}]{kullback1987kullback}
+Kullback, S.
+\newblock 1987.
+\newblock The kullback-leibler distance.
+
+\bibitem[\protect\citeauthoryear{Pereira, Tishby, and
+  Lee}{1993}]{pereira1993distributional}
+Pereira, F.; Tishby, N.; and Lee, L.
+\newblock 1993.
+\newblock Distributional clustering of english words.
+\newblock In {\em Proceedings of the 31st annual meeting on Association for
+  Computational Linguistics},  183--190.
+\newblock Association for Computational Linguistics.
+
+\bibitem[\protect\citeauthoryear{Wen, Nie, and Zhang}{2001}]{wen2001clustering}
+Wen, J.-R.; Nie, J.-Y.; and Zhang, H.-J.
+\newblock 2001.
+\newblock Clustering user queries of a search engine.
+\newblock In {\em Proceedings of the 10th international conference on World
+  Wide Web},  162--168.
+\newblock ACM.
+
+\bibitem[\protect\citeauthoryear{Witten and Milne}{2008}]{witten2008effective}
+Witten, I., and Milne, D.
+\newblock 2008.
+\newblock An effective, low-cost measure of semantic relatedness obtained from
+  wikipedia links.
+\newblock In {\em Proceeding of AAAI Workshop on Wikipedia and Artificial
+  Intelligence: an Evolving Synergy, AAAI Press, Chicago, USA},  25--30.
+
 \end{thebibliography}
